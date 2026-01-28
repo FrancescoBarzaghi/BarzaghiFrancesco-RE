@@ -48,8 +48,10 @@ class DatabaseWrapper:
             self.connection.close()
             self.connection = None
             print("Connessione al DB chiusa.")
+
     def create_tables(self):
         """Crea le tabelle necessarie all'applicazione."""
+        self.connect()  # Assicurati di essere connesso
         create_grades_table = """
         CREATE TABLE IF NOT EXISTS grades (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -60,4 +62,11 @@ class DatabaseWrapper:
         );
         """
         self.execute_update(create_grades_table)
-        print("Tabelle create correttamente.")
+        print("Tabella 'grades' creata correttamente.")
+
+    def initialize(self):
+        """
+        Metodo da chiamare all'avvio dell'app.
+        Si occupa di creare tutte le tabelle necessarie.
+        """
+        self.create_tables()
